@@ -42,8 +42,11 @@ public class JustificacionServiceImpl implements iJustificacionService {
         sp.registerStoredProcedureParameter("p_comentario", String.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_id_justificacion", Long.class, ParameterMode.OUT);
 
+        log.info("""
+                WASHA     AAAAAAAAA
+        """+ dto.getFecha().toString());
         sp.setParameter("p_id_usuario", dto.getIdUsuario());
-        sp.setParameter("p_fecha", Date.valueOf(dto.getFecha().toLocalDate()));
+        sp.setParameter("p_fecha", dto.getFecha());
         sp.setParameter("p_id_tipo", dto.getIdTipo());
         sp.setParameter("p_comentario", dto.getComentario());
         sp.execute();
@@ -92,15 +95,13 @@ public class JustificacionServiceImpl implements iJustificacionService {
         return justificacionRepository.findDtoByID(id).orElseThrow(() -> new RuntimeException("Justificacion no encontrada con ID: " + id));
     }
 
-   /*  @Override
-    public Page<JustificacionResponseDto> findAllDtoPageable(Integer page, Integer size) {
+    @Override
+    public Page<JustificacionResponseDto> findAllDtoPageable(Integer page, Integer size, Long idEstado) {
         Pageable pageable = PageRequest.of(page, size);
-
-        StringBuilder jpql = """
-                
-                """;
+        Page<JustificacionResponseDto> justificacionesPage = justificacionRepository.findAllDtoPageable(pageable, idEstado);
+        return new PageImpl<>(justificacionesPage.getContent(), pageable, justificacionesPage.getTotalElements());
     };
- */
+
     
 
 

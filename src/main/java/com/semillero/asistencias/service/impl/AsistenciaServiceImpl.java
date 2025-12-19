@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.semillero.asistencias.dto.response.AsistenciaResponseDto;
+import com.semillero.asistencias.dto.response.HistorialAsistenciaDto;
 import com.semillero.asistencias.repository.iAsistenciaRepository;
 import com.semillero.asistencias.service.iAsistenciaService;
 
@@ -62,6 +65,12 @@ public class AsistenciaServiceImpl implements iAsistenciaService {
     @Override
     public Optional<AsistenciaResponseDto> findByIdUsuarioAndFechaActual(Long idUsuario) {
         return asistenciaRepository.findByIdUsuarioAndFechaActual(idUsuario, LocalDate.now());
+    }
+
+    @Override
+    public Page<HistorialAsistenciaDto> getHistorialByIdUsuario(Long idUsuario, Integer page, Integer size, LocalDate fechaInicio, LocalDate fechaFin) {
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        return asistenciaRepository.findHistorialByUsuarioPageable(idUsuario, fechaInicio, fechaFin, pageable);
     }
 
 }

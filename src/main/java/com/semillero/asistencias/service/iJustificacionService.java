@@ -12,6 +12,6 @@ public interface iJustificacionService {
     JustificacionResponseDto aprobar(JustificacionActionRequestDto dto);
     JustificacionResponseDto rechazar(JustificacionActionRequestDto dto);
     JustificacionResponseDto getById(Long id);
-    /* Page<JustificacionResponseDto> findAllDtoPageable(Integer page, Integer size); */
+    Page<JustificacionResponseDto> findAllDtoPageable(Integer page, Integer size, Long idEstado);
 
 }
